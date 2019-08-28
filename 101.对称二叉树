@@ -1,0 +1,66 @@
+给定一个二叉树，检查它是否是镜像对称的
+
+解决方案：
+  1. 递归： 首先考虑递归方法   可以考虑成求两个二叉树是否是对称的，即将root.left和root.right看成是两棵树进行比较。
+          要满足对称，则需：left.left == right.right  && left.right == right.left  以此进行递归。
+          /**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public boolean isSymmetric(TreeNode root) {
+        if(root == null)    return true;
+        return isSymmetric(root.left, root.right);
+    }
+    public boolean isSymmetric(TreeNode left, TreeNode right){
+        if(left == null && right == null)   return true;
+        if(left == null || right == null)   return false;
+        if(left.val != right.val)   return false;
+        if(isSymmetric(left.left, right.right) && isSymmetric(left.right, right.left))  return true;
+        return false;
+    }
+}
+
+  2，非递归方法： 类比层次遍历，对每一层判断是否是对称，借助队列存储每一层的节点信息。为了保存顺序，需要每次两个元素进入队列或者对左右子树分别用队列。
+  /**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public boolean isSymmetric(TreeNode root) {
+        if(root == null)    return true;
+        if(root.left == null && root.right == null)     return true;
+        if(root.left == null || root.right == null)     return false;
+        Queue<TreeNode> q = new LinkedList<TreeNode>();
+        q.add(root.left);
+        q.add(root.right);
+        while(!q.isEmpty()){
+            TreeNode left = q.poll();
+            TreeNode right = q.poll();
+            if(left.val != right.val)   return false;
+            if(left.left != null ^ right.right != null)  return false;
+            if(left.right != null ^ right.left != null)  return false;
+            if(left.left != null && right.right != null){
+                q.add(left.left);
+                q.add(right.right);
+            }
+            
+            if(left.right != null && right.left != null){
+                q.add(left.right);
+                q.add(right.left);
+            }
+            
+        }
+        return true;
+    }
+}
