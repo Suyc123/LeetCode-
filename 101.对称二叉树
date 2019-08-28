@@ -3,6 +3,8 @@
 解决方案：
   1. 递归： 首先考虑递归方法   可以考虑成求两个二叉树是否是对称的，即将root.left和root.right看成是两棵树进行比较。
           要满足对称，则需：left.left == right.right  && left.right == right.left  以此进行递归。
+          时间复杂度： 递归访问每一个元素  时间复杂度为O(n)
+          空间复杂度： 存储递归栈 跟树的高度有关   最坏情况树的高度为n  所以空间复杂度O(n)
           /**
  * Definition for a binary tree node.
  * public class TreeNode {
@@ -27,6 +29,8 @@ class Solution {
 }
 
   2，非递归方法： 类比层次遍历，对每一层判断是否是对称，借助队列存储每一层的节点信息。为了保存顺序，需要每次两个元素进入队列或者对左右子树分别用队列。
+                  时间复杂度：对树中每一个元素进行遍历  时间复杂度为O(n)
+                  空间复杂度： 两个队列开销  最坏情况O(n)
   /**
  * Definition for a binary tree node.
  * public class TreeNode {
